@@ -1,31 +1,52 @@
 // declare global variables
 float tileSizeX;
 float tileSizeY;
-float tileSpace;
+float tileSpaceX;
+float tileSpaceY;
+float padding;
 
 void setup() {
-  size(600, 600);
+  size(915, 650);
   background(255);
   frameRate(60);
   
   // initialize global variables
-  tileSizeX = width/60;
-  tileSizeY = width/60;
-  tileSpace = tileSizeX * 1.5;
-
+  tileSizeX = 10;
+  tileSizeY = 10;
+  tileSpaceX = tileSizeX * 1.5;
+  tileSpaceY = tileSizeY * 1.5;
+  padding = tileSpaceX;
+ 
 }
 
 
 void draw() {
-  pushMatrix();
-    translate(tileSpace,tileSpace);
-    for(float ix = 0; ix < width - tileSpace; ix = ix + tileSpace)
+    pushMatrix();
+    translate(padding,padding);
+    for(int ix = 0; ix < 60; ix++)
     {
-      for(float iy = 0; iy < height - tileSpace; iy = iy + tileSpace)
+      for(int iy = 0; iy < 24; iy++)
       {
-        fill(0);
-        rectMode(CENTER);
-        rect(ix,iy,tileSizeX,tileSizeY);
+        fill(255);
+        if(iy<hour() || (iy == hour() && ix < minute()))
+        {
+          fill(0);
+          //if(iy % 4 == 0){fill(100);}
+        }
+        if(iy == hour() && ix == minute())
+        {
+          if(second() % 2 == 0)
+          {
+            fill(205);
+          }
+          else
+          {
+            fill(255);
+          }
+        }
+        //rectMode(CENTER);
+        //rect(ix*tileSpaceX,iy*tileSpaceY,tileSizeX,tileSizeY);
+        ellipse(ix*tileSpaceX,iy*tileSpaceY,tileSizeX,tileSizeY);
       }
     }
   popMatrix();
