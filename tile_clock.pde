@@ -21,32 +21,31 @@ void setup() {
 
 
 void draw() {
+  background(255);
     pushMatrix();
     translate(padding,padding);
     for(int ix = 0; ix < 60; ix++)
     {
       for(int iy = 0; iy < 24; iy++)
       {
+        float offset = height - ((25-iy)*tileSpaceY);
         fill(255);
         if(iy<hour() || (iy == hour() && ix < minute()))
         {
-          fill(0);
-          //if(iy % 4 == 0){fill(100);}
+          offset = iy*tileSpaceY;
+          fill(50);
         }
         if(iy == hour() && ix == minute())
         {
-          if(second() % 2 == 0)
-          {
-            fill(205);
-          }
-          else
-          {
-            fill(255);
-          }
+
+          offset = height - ((25-iy)*tileSpaceY) + map(second(),0,60,0,(iy*tileSpaceY)- (height - ((25-iy)*tileSpaceY)));
+          fill(map(offset,iy*tileSpaceY,height - ((25-iy)*tileSpaceY),50,255));
         }
         //rectMode(CENTER);
         //rect(ix*tileSpaceX,iy*tileSpaceY,tileSizeX,tileSizeY);
-        ellipse(ix*tileSpaceX,iy*tileSpaceY,tileSizeX,tileSizeY);
+        line(ix*tileSpaceX,offset,ix*tileSpaceX,offset+30);
+        ellipse(ix*tileSpaceX,offset,tileSizeX,tileSizeY*1.025);
+        
       }
     }
   popMatrix();
